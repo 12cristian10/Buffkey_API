@@ -24,7 +24,7 @@ model UnidadMedida{
 }
 model Proveedor{
   idProveedor Int @id @default(autoincrement())
-  nit String @db.VarChar(45)
+  nit String @unique @db.VarChar(45)
   nombre String @db.VarChar(60)
   correo String @db.VarChar(100)
   direccion String? @db.VarChar(100)
@@ -35,7 +35,7 @@ model Proveedor{
 
 model Producto{
   idProducto Int @id @default(autoincrement())
-  codigo String @db.VarChar(10)
+  codigo String @unique @db.VarChar(10)
   nombre String @db.VarChar(100)
   precio  Decimal @db.Decimal(65,2)
   categoria Categoria @relation(fields: [categoria_FK], references: [idCategoria])
@@ -55,7 +55,7 @@ model Inventario{
 
 model Empleado{
   idEmplado Int @id @default(autoincrement())
-  Dni String @db.VarChar(20)
+  Dni String @unique @db.VarChar(20)
   tipoDni String @db.VarChar(45)
   priNombre String @db.VarChar(45)
   segNombre String? @db.VarChar(45)
