@@ -1,4 +1,3 @@
-import { query } from 'express'
 import {prisma} from '../dbconn.js'
 
 
@@ -14,7 +13,7 @@ export const getAllProviders = async (req,res)=>{
 
 export const getProvider = async (req,res)=>{
     try {
-        const id = req.params.id
+        const {id} = req.params
         const provedorEncontrado = await prisma.proveedor.findFirst({
             where:{
                 idProveedor:+id 
@@ -58,7 +57,7 @@ export const createProvider = async (req,res)=>{
 
 export const updateProvider = async (req,res)=>{
     try {
-        const id = req.params.id
+        const {id} = req.params
         const proveedorExistente = await prisma.proveedor.findUnique({
             where:{
                 idProveedor: +id
@@ -88,7 +87,7 @@ export const updateProvider = async (req,res)=>{
 
 export const deleteProvider = async (req,res)=>{
     try {
-        const id = req.params.id
+        const {id} = req.params
         const proveedorExistente = await prisma.proveedor.findUnique({
             where:{
                 idProveedor: +id
