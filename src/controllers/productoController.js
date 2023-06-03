@@ -1,4 +1,4 @@
-import {prisma} from '../dbconn.js'
+import {prisma} from '../config/dbconn.js'
 
 
 export const getAllProducts = async (req,res)=>{
