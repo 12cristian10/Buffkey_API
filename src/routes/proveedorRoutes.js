@@ -1,10 +1,12 @@
 import {Router} from 'express'
-import { getProvider, getAllProviders, createProvider, updateProvider, deleteProvider, searchProvider } from '../controllers/proveedorController.js'
+import { getProvider, getAllProviders, createProvider, updateProvider, deleteProvider, searchProvider, getAllNamesProviders } from '../controllers/proveedorController.js'
 
 const router = Router()
 
 
 router.get('/proveedores/busqueda', searchProvider)
+
+router.get('/proveedores/nombres', getAllNamesProviders)
 
 router.get('/proveedores/:id', getProvider)
 

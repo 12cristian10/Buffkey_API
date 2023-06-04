@@ -11,6 +11,21 @@ export const getAllProviders = async (req,res)=>{
     }
 }
 
+export const getAllNamesProviders = async (req,res)=>{
+    try {
+        const nombresProveedores = await prisma.proveedor.findMany({
+            select:{
+                idProveedor:true,
+                nombre:true,
+            }
+        }) 
+        res.json(nombresProveedores)   
+    } catch (error) {
+        console.error(error)
+        res.status(500).json({ message: 'error getting the names providers' })
+    }
+}
+
 export const getProvider = async (req,res)=>{
     try {
         const {id} = req.params
