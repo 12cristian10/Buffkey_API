@@ -10,112 +10,94 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Categoria{
-  idCategoria Int @id @default(autoincrement())
-  nombreCategoria String @db.VarChar(45)
-  productos Producto[]
+model Categoria {
+  idCategoria     Int        @id @default(autoincrement())
+  nombreCategoria String     @db.VarChar(45)
+  productos       Producto[]
 }
 
-model UnidadMedida{
-  idUnidad Int @id @default(autoincrement())
-  nombreUnidad String @db.VarChar(45)
-  abreviacion String @db.VarChar(10)
-  detalleInv DetalleInventario[]
-}
-model Proveedor{
-  idProveedor Int @id @default(autoincrement())
-  nit String @unique @db.VarChar(45)
-  nombre String @db.VarChar(60)
-  correo String @db.VarChar(100)
-  direccion String? @db.VarChar(100)
-  telefono String? @db.VarChar(15)
-  productos Producto[]
-  pedidos Pedido[]
+model UnidadMedida {
+  idUnidad     Int                 @id @default(autoincrement())
+  nombreUnidad String              @db.VarChar(45)
+  abreviacion  String              @db.VarChar(10)
+  detalleInv   DetalleInventario[]
 }
 
-model Producto{
-  idProducto Int @id @default(autoincrement())
-  codigo String @unique @db.VarChar(10)
-  nombre String @db.VarChar(100)
-  precio  Decimal @db.Decimal(65,2)
-  categoria Categoria @relation(fields: [categoria_FK], references: [idCategoria])
-  categoria_FK Int 
-  proveedor Proveedor @relation(fields: [proveedor_FK], references: [idProveedor])
+model Proveedor {
+  idProveedor Int        @id @default(autoincrement())
+  nit         String     @unique @db.VarChar(45)
+  nombre      String     @db.VarChar(60)
+  correo      String     @db.VarChar(100)
+  direccion   String?    @db.VarChar(100)
+  telefono    String?    @db.VarChar(15)
+  productos   Producto[]
+  pedidos     Pedido[]
+}
+
+model Producto {
+  idProducto   Int                 @id @default(autoincrement())
+  codigo       String              @unique @db.VarChar(10)
+  nombre       String              @db.VarChar(100)
+  precio       Decimal             @db.Decimal(65, 2)
+  categoria    Categoria           @relation(fields: [categoria_FK], references: [idCategoria])
+  categoria_FK Int
+  proveedor    Proveedor           @relation(fields: [proveedor_FK], references: [idProveedor])
   proveedor_FK Int
-  pedido DetallePedido[]
-  inventario DetalleInventario[]
-  reporte DetalleReporte[]
+  pedido       DetallePedido[]
+  inventario   DetalleInventario[]
 }
 
-model Inventario{
-  idInventario Int @id @default(autoincrement())
-  nombreInventario String @db.VarChar(45)
-  producto DetalleInventario[]
+model Inventario {
+  idInventario     Int                 @id @default(autoincrement())
+  nombreInventario String              @db.VarChar(45)
+  producto         DetalleInventario[]
 }
 
-model Empleado{
-  idEmplado Int @id @default(autoincrement())
-  Dni String @unique @db.VarChar(20)
-  tipoDni String @db.VarChar(45)
-  priNombre String @db.VarChar(45)
-  segNombre String? @db.VarChar(45)
-  priApellido String @db.VarChar(45)
-  segApellido String @db.VarChar(45)
-  rol String @db.VarChar(30)
-  clave  String @db.VarChar(20)
-  correo String @db.VarChar(100)
-  telefono String? @db.VarChar(15)
-  pedidos Pedido[]
-  reportes Reporte[]
+model Empleado {
+  idEmpleado  Int       @id @default(autoincrement())
+  Dni         String    @unique @db.VarChar(20)
+  tipoDni     String    @db.VarChar(45)
+  priNombre   String    @db.VarChar(45)
+  segNombre   String?   @db.VarChar(45)
+  priApellido String    @db.VarChar(45)
+  segApellido String    @db.VarChar(45)
+  rol         String    @db.VarChar(30)
+  clave       String    @db.VarChar(20)
+  correo      String    @db.VarChar(100)
+  telefono    String?   @db.VarChar(15)
+  pedidos     Pedido[]
 }
 
-model Pedido{
-  idPedido Int @id @default(autoincrement())
-  estado String @db.VarChar(45)
-  valorTotal Decimal @db.Decimal(65,2)
-  fechaPedido DateTime @default(now())
-  empleado Empleado @relation(fields: [empleado_FK], references: [idEmplado])
-  empleado_FK Int
-  proveedor Proveedor @relation(fields: [proveedor_FK], references: [idProveedor])
+model Pedido {
+  idPedido     Int             @id @default(autoincrement())
+  estado       String          @db.VarChar(45)
+  valorTotal   Decimal         @db.Decimal(65, 2)
+  fechaPedido  DateTime        @default(now())
+  empleado     Empleado        @relation(fields: [empleado_FK], references: [idEmpleado])
+  empleado_FK  Int
+  proveedor    Proveedor       @relation(fields: [proveedor_FK], references: [idProveedor])
   proveedor_FK Int
-  producto DetallePedido[] 
+  producto     DetallePedido[]
 }
 
-model DetallePedido{
-  producto Producto @relation(fields: [producto_FK], references: [idProducto])
+model DetallePedido {
+  idDetalle   Int      @id @default(autoincrement())
+  producto    Producto @relation(fields: [producto_FK], references: [idProducto])
   producto_FK Int
-  pedido Pedido @relation(fields: [pedido_FK], references: [idPedido])
-  pedido_FK Int
-  cantidad Int
-  subtotal Decimal
-  @@id([pedido_FK,producto_FK])
+  pedido      Pedido   @relation(fields: [pedido_FK], references: [idPedido])
+  pedido_FK   Int
+  cantidad    Int
+  subtotal    Decimal
 }
 
-model DetalleInventario{
-  producto Producto @relation(fields: [producto_FK], references: [idProducto])
-  producto_FK Int
-  inventario Inventario @relation(fields: [inventario_FK], references: [idInventario])
+model DetalleInventario {
+  producto      Producto     @relation(fields: [producto_FK], references: [idProducto])
+  producto_FK   Int
+  inventario    Inventario   @relation(fields: [inventario_FK], references: [idInventario])
   inventario_FK Int
-  stock Int @default(0)
-  unidad UnidadMedida @relation(fields: [unidad_FK], references: [idUnidad])
-  unidad_FK Int
-  @@id([inventario_FK,producto_FK])
-}
+  stock         Int          @default(0)
+  unidad        UnidadMedida @relation(fields: [unidad_FK], references: [idUnidad])
+  unidad_FK     Int
 
-model Reporte{
-  idReporte Int @id @default(autoincrement())
-  codigoReporte String @db.VarChar(10)
-  fechaReporte DateTime @default(now())
-  empleado Empleado @relation(fields: [empleado_FK], references: [idEmplado])
-  empleado_FK Int
-  producto DetalleReporte[]
-}
-
-model DetalleReporte{
-  reporte Reporte @relation(fields: [reporte_FK], references: [idReporte])
-  reporte_FK Int
-  producto Producto @relation(fields: [producto_FK], references: [idProducto])
-  producto_FK Int
-
-  @@id([reporte_FK,producto_FK])
+  @@id([inventario_FK, producto_FK])
 }
