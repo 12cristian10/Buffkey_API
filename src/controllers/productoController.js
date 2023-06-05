@@ -66,7 +66,7 @@ export const createProduct = async (req, res) => {
     //   select: { idProducto: true },
     // });
 
-    if (!productoCreado) {
+    if (!producto) {
       return res.status(404).json({ message: "product not found" });
     }
 
