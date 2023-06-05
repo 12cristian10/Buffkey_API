@@ -28,7 +28,7 @@ export const getProduct = async (req,res)=>{
 
 export const createProduct = async (req,res)=>{
     try {
-        const{codigo,nombre,precio,categoria,proveedor} = req.body 
+        const{codigo,nombre,precio,categoria,proveedor,medida} = req.body 
 
         const categoriaEncontrada = await prisma.categoria.findUnique({
             where:{idCategoria: +categoria},   
@@ -59,6 +59,26 @@ export const createProduct = async (req,res)=>{
             },
         })
 
+        const productoCreado = await prisma.producto.findUnique({
+            where:{codigo: codigo}, 
+            select:{idProducto: true}  
+        })
+    
+        if(!productoCreado){
+            return res.status(404).json({message:"product not found"})
+        }
+
+        const detalle = await prisma.detalleInventario.create({
+            data:{
+                inventario_FK: 1,
+                producto_FK: productoCreado.idProducto,
+                unidad_FK:+medida
+            }
+        })
+
+        if(!detalle){
+            return res.status(500).json({message:"error creating detail"})
+        }
         return res.status(201).json(producto)
     } catch (error) {
         console.error(error)

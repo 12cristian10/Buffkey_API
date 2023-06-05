@@ -96,7 +96,7 @@ model DetalleInventario{
   producto_FK Int
   inventario Inventario @relation(fields: [inventario_FK], references: [idInventario])
   inventario_FK Int
-  stock Int
+  stock Int @default(0)
   unidad UnidadMedida @relation(fields: [unidad_FK], references: [idUnidad])
   unidad_FK Int
   @@id([inventario_FK,producto_FK])

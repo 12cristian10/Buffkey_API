@@ -5,6 +5,8 @@ import indexRoutes from './routes/indexRoutes.js'
 import productosRoutes from './routes/productoRoutes.js'
 import proveedoresRoutes from './routes/proveedorRoutes.js'
 import categoriasRoutes from './routes/categoriaRoutes.js'
+import unidadesRoutes from './routes/unidadRoutes.js'
+import detalleInvRoutes from './routes/DetalleInventarioRoutes.js'
 
 const app = express()
 
@@ -17,6 +19,8 @@ app.use(indexRoutes)
 app.use(productosRoutes)
 app.use(proveedoresRoutes)
 app.use(categoriasRoutes)
+app.use(unidadesRoutes)
+app.use(detalleInvRoutes)
 
 app.listen(PORT,()=>{
     console.log("app running on port",PORT);
