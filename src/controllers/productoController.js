@@ -60,23 +60,21 @@ export const createProduct = async (req, res) => {
     });
 
     
-    // const productoCreado = await prisma.producto.findUnique({
-    //   where: { codigo: codigo },
-    //   select: { idProducto: true },
-    // });
+    const productoCreado = await prisma.producto.findUnique({
+       where: { codigo: codigo },
+       select: { idProducto: true },
+     });
 
     if (!producto) {
       return res.status(404).json({ message: "product not found" });
     }
 
-    return res.status(201).json(producto);
-    console.log(producto)
-    //const idProductoCreado = producto.idProducto;
+    const idproductFK = productoCreado.idProducto;
 
     const detalle = await prisma.detalleInventario.create({
       data: {
         inventario_FK: 1,
-        producto_FK: producto.idProducto,
+        producto_FK: idproductFK,
         unidad_FK: +medida,
       },
     });
@@ -84,6 +82,7 @@ export const createProduct = async (req, res) => {
     if (!detalle) {
       return res.status(500).json({ message: "error creating detail" });
     }
+    return res.status(201).json(producto);
     return res.status(200).json(detalle);
   } catch (error) {
     console.error(error);
